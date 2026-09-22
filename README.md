@@ -26,6 +26,10 @@ npm run dev
 
 `npm run build` typechecks, builds the Vite app, and prerenders the public routes into `dist/` with `CNAME`, `.nojekyll`, and a `404.html` SPA fallback.
 
+## Deploy
+
+Pushes to `main` run `.github/workflows/pages.yml`. The build job produces `dist/`. The deploy job needs GitHub Pages turned on for this repository: Settings, Pages, Build and deployment, Source: GitHub Actions. Until that source is selected, the deploy step returns 404.
+
 ## DNS
 
 Point `riyadh500.com` at GitHub Pages when ready:
