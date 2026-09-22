@@ -1,0 +1,68 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main, cursor/wave-0-shell-ef4d]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build
+        env:
+          GITHUB_PAGES: 'true'
+          VITE_BASE_PATH: /
+          VITE_SUPABASE_URL: https://gyvagpbyvvztkfnmixva.supabase.co
+          VITE_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5dmFncGJ5dnZ6dGtmbm1peHZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwOTU1NjUsImV4cCI6MjEwNTY3MTU2NX0.9qexbJl6UHSqhn88tjCn1fGvUnsGzAkDcF9nPSxefmE
+        run: npm run build
+      - name: Confirm Pages artifact
+        run: |
+          test -f dist/.nojekyll
+          test -f dist/404.html
+          test -f dist/CNAME
+          grep -qx 'riyadh500.com' dist/CNAME
+          test -f dist/sectors/index.html
+          test -f dist/leaderboard/index.html
+          test -f dist/sectors/energy-utilities/index.html
+          test -f dist/sectors/public-sector-vision-2030/index.html
+          test -f dist/robots.txt
+          grep -q 'Leaders coming soon' dist/leaderboard/index.html
+          grep -q 'Leaders coming soon' dist/sectors/energy-utilities/index.html
+          grep -Eq '(src|href)="/assets/' dist/index.html
+          if grep -q '/riyadh500/' dist/index.html; then
+            echo 'project subpath leaked into Pages index'
+            exit 1
+          fi
+          if grep -R -E -i -q 'calendar\.app\.google|nammco|board arabia|jeddah' dist; then
+            echo 'banned string in Pages artifact'
+            exit 1
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
