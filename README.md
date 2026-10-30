@@ -8,11 +8,25 @@ Public ranked list of the top 500 business leaders in Riyadh, across 13 sectors.
 - Supabase (`@supabase/supabase-js`)
 - GitHub Pages at the domain root (`riyadh500.com`, base path `/`)
 
-## Wave 0
+## What is on the site
 
-Marketing land (`/`), the sector index (`/sectors`), a page for each sector (`/sectors/:slug`), and an empty overall leaderboard (`/leaderboard`).
+The public UI follows the approved black, white and Saudi green design. It is mobile first, with a bottom nav, sticky search, filter chips and a peeking carousel.
 
-No leader profiles are seeded. The boards read published rows from Supabase and stay empty until those rows exist. If the sector query cannot reach Supabase, the 13 seeded sectors are shown from a local fallback. Public reads use the anon key and row level security.
+- `/` home
+- `/browse` groups (Government, Private sector, Family offices) and the 13 sectors
+- `/leaderboard` example ranks, with Vote
+- `/leaders/:slug` example profile
+- `/nominate` nomination form
+- `/insights` example notes and the newsletter
+- `/partners` labelled partner slots
+
+Profiles on screen are example data with silhouette placeholders. The app does not read the `leaders` table. A column-limited `leaders_public` view exists for later and only exposes published rows.
+
+Votes use Supabase Auth. The first vote opens an email-code sheet. Google and Apple buttons stay inactive unless `VITE_AUTH_GOOGLE` or `VITE_AUTH_APPLE` is `true`. After sign-in, each later vote is one tap, with Undo. `user_votes` allows one row per user per leader slug.
+
+Nominations insert into `nominations` with status `in_review` and are not publicly readable. The newsletter inserts into `subscribers` and that table is insert-only.
+
+SQL is in `supabase/migrations/20261030120000_votes_nominations_subscribers.sql`.
 
 Product notes: https://app.notion.com/p/3e37442e2fd181209783d12bfd19f907
 

@@ -1,4 +1,4 @@
-import { FALLBACK_SECTORS, sectorBySlug, type Sector } from './sectors'
+import { EXAMPLE_LEADERS, leaderBySlug, type ExampleLeader } from './example'
 
 export const SITE_ORIGIN = 'https://riyadh500.com'
 export const SITE_NAME = 'Riyadh 500'
@@ -10,62 +10,88 @@ export type PageMeta = {
   canonical: string
 }
 
-const HOME: PageMeta = {
-  path: '/',
-  title: 'Riyadh 500 | Public ranking of business leaders in Riyadh',
-  description:
-    'Riyadh 500 is a public ranked list of the top 500 business leaders in Riyadh, across 13 sectors. Standing follows votes. Published profiles can be claimed by the people they name.',
-  canonical: `${SITE_ORIGIN}/`,
+const PAGES: Record<string, PageMeta> = {
+  '/': {
+    path: '/',
+    title: 'Riyadh 500 | The people who lead Riyadh, ranked by you',
+    description:
+      'Riyadh 500 is a public list of business leaders in Riyadh across government, the private sector and family offices. Vote, nominate and read example profiles. Rank is never for sale.',
+    canonical: `${SITE_ORIGIN}/`,
+  },
+  '/browse': {
+    path: '/browse',
+    title: 'Browse groups and sectors | Riyadh 500',
+    description:
+      'Browse Riyadh 500 by three groups and 13 sectors. Government, the private sector and family offices sit above the sector index. Example profiles only.',
+    canonical: `${SITE_ORIGIN}/browse`,
+  },
+  '/leaderboard': {
+    path: '/leaderboard',
+    title: 'Leaderboard | Riyadh 500',
+    description:
+      'The Riyadh 500 leaderboard shows example ranks by sector, with one-tap voting after sign-in. No real profiles are public. Rank is never for sale.',
+    canonical: `${SITE_ORIGIN}/leaderboard`,
+  },
+  '/nominate': {
+    path: '/nominate',
+    title: 'Nominate a leader | Riyadh 500',
+    description:
+      'Suggest a leader for Riyadh 500. Nominations are reviewed and are not public. Sign in with an email code, then send a name, role, organisation and sector.',
+    canonical: `${SITE_ORIGIN}/nominate`,
+  },
+  '/insights': {
+    path: '/insights',
+    title: 'Insights | Riyadh 500',
+    description:
+      'Example insights for Riyadh 500: list updates, short analysis and a weekly email. The notes use sample headlines, not real people. Subscribe to the newsletter.',
+    canonical: `${SITE_ORIGIN}/insights`,
+  },
+  '/partners': {
+    path: '/partners',
+    title: 'Partners | Riyadh 500',
+    description:
+      'Partner slots on Riyadh 500 are labelled Presented by [Example Partner]. Audience and price are placeholders. Rank is never for sale.',
+    canonical: `${SITE_ORIGIN}/partners`,
+  },
+  '/privacy': {
+    path: '/privacy',
+    title: 'Privacy | Riyadh 500',
+    description:
+      'Riyadh 500 stores your email for a vote, a nomination or the newsletter. Votes are not shown with your name. Nominations are not public. Example profiles are not real people.',
+    canonical: `${SITE_ORIGIN}/privacy`,
+  },
+  '/terms': {
+    path: '/terms',
+    title: 'Terms | Riyadh 500',
+    description:
+      'Riyadh 500 is a public list of business leaders in Riyadh. Rank is never for sale. Profiles on this version are examples. A nomination is a suggestion, not a place on the list.',
+    canonical: `${SITE_ORIGIN}/terms`,
+  },
 }
 
-const SECTORS: PageMeta = {
-  path: '/sectors',
-  title: '13 sectors | Riyadh 500',
-  description:
-    'Browse the 13 sectors of Riyadh 500, from energy and banking to tourism, education, and public programmes. Each sector holds about 38 to 39 places on the list of 500.',
-  canonical: `${SITE_ORIGIN}/sectors`,
-}
-
-const LEADERBOARD: PageMeta = {
-  path: '/leaderboard',
-  title: 'Leaderboard | Riyadh 500',
-  description:
-    'The overall Riyadh 500 leaderboard ranks published leaders by vote volume across every sector. The board is empty until profiles are published. No names are added by hand on this page.',
-  canonical: `${SITE_ORIGIN}/leaderboard`,
-}
-
-const STATIC: Record<string, PageMeta> = {
-  '/': HOME,
-  '/sectors': SECTORS,
-  '/leaderboard': LEADERBOARD,
-}
-
-export function sectorPageMeta(sector: Sector): PageMeta {
+export function profileMeta(leader: ExampleLeader): PageMeta {
   return {
-    path: `/sectors/${sector.slug}`,
-    title: `${sector.name} | Riyadh 500`,
-    description: `${sector.name} is one of 13 sectors on Riyadh 500, with up to ${sector.cap} places. Published leaders will rank here by public votes. The board stays empty until those profiles go live.`,
-    canonical: `${SITE_ORIGIN}/sectors/${sector.slug}`,
+    path: `/leaders/${leader.slug}`,
+    title: `${leader.name} | Riyadh 500`,
+    description: `${leader.name} is an example profile on Riyadh 500, not a real person. ${leader.role} at ${leader.organisation}. Example votes only. Rank is never for sale.`,
+    canonical: `${SITE_ORIGIN}/leaders/${leader.slug}`,
   }
 }
 
 export function pageMetaForPath(pathname: string): PageMeta {
-  const path =
-    pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname || '/'
-  const staticPage = STATIC[path]
+  const path = pathname.length > 1 && pathname.endsWith('/') ? pathname.slice(0, -1) : pathname || '/'
+  const staticPage = PAGES[path]
   if (staticPage) return staticPage
-
-  const match = /^\/sectors\/([a-z0-9-]+)$/.exec(path)
+  const match = /^\/leaders\/([a-z0-9-]+)$/.exec(path)
   if (match) {
-    const sector = sectorBySlug(match[1])
-    if (sector) return sectorPageMeta(sector)
+    const leader = leaderBySlug(match[1])
+    if (leader) return profileMeta(leader)
   }
-
   throw new Error(`No SEO record for ${pathname}`)
 }
 
 export function marketingRoutes(): string[] {
-  return ['/', '/sectors', '/leaderboard', ...FALLBACK_SECTORS.map((sector) => `/sectors/${sector.slug}`)]
+  return [...Object.keys(PAGES), ...EXAMPLE_LEADERS.map((leader) => `/leaders/${leader.slug}`)]
 }
 
 export function pageGraph(page: PageMeta) {
@@ -76,8 +102,7 @@ export function pageGraph(page: PageMeta) {
         '@type': 'Organization',
         name: SITE_NAME,
         url: SITE_ORIGIN,
-        description:
-          'Public ranked list of the top 500 business leaders in Riyadh, across 13 sectors.',
+        description: 'Public list of business leaders in Riyadh. Rank is never for sale.',
       },
       {
         '@type': 'WebSite',

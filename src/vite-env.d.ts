@@ -4,6 +4,8 @@ interface ImportMetaEnv {
   readonly VITE_SUPABASE_URL: string
   readonly VITE_SUPABASE_ANON_KEY: string
   readonly VITE_BASE_PATH?: string
+  readonly VITE_AUTH_GOOGLE?: string
+  readonly VITE_AUTH_APPLE?: string
 }
 
 interface ImportMeta {

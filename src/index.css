@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Syne", sans-serif;
+  --font-sans: "Schibsted Grotesk", sans-serif;
   --font-serif: "Instrument Serif", serif;
-  --font-body: "Figtree", sans-serif;
 
-  --color-ink: #121714;
-  --color-ink-soft: #24302a;
-  --color-sand: #efe8db;
-  --color-sand-deep: #e2d8c6;
-  --color-pearl: #f6f3ec;
-  --color-gold: #6b4e22;
-  --color-gold-bright: #c4a15a;
-  --color-mist: #8b948c;
+  --color-ink: #111111;
+  --color-paper: #ffffff;
+  --color-mist: #f3f3f1;
+  --color-line: #e3e3df;
+  --color-muted: #3d3d3d;
+  --color-green: #006c35;
+  --color-green-deep: #004d26;
+  --color-green-soft: #e7f3ec;
+  --color-green-bright: #7dde9a;
 }
 
 @layer base {
@@ -21,27 +21,23 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-gold-bright);
+    outline: 3px solid var(--color-green);
     outline-offset: 3px;
-  }
-
-  section[id],
-  article[id] {
-    scroll-margin-top: 6rem;
   }
 
   body {
     margin: 0;
     min-height: 100dvh;
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
     color: var(--color-ink);
-    background: var(--color-pearl);
+    background: var(--color-paper);
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
   }
 
   ::selection {
-    background: color-mix(in oklab, var(--color-gold) 35%, transparent);
+    background: var(--color-green-soft);
     color: var(--color-ink);
   }
 }
@@ -51,18 +47,18 @@
     text-wrap: balance;
   }
 
-  .grain {
-    position: relative;
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
 
-  .grain::after {
-    content: "";
-    pointer-events: none;
-    position: absolute;
-    inset: 0;
-    opacity: 0.05;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  .safe-bottom {
+    padding-bottom: calc(5.25rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (min-width: 768px) {
+  .safe-bottom {
+    padding-bottom: 0;
   }
 }
 

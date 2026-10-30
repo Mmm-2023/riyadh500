@@ -39,13 +39,11 @@ function assertPage(route, html) {
   if (!html.includes('"@type":"WebSite"')) errors.push('missing WebSite')
   if (route === '/' && !html.includes('Browse sectors')) errors.push('home missing sectors CTA')
   if (route === '/' && !html.includes('Open the leaderboard')) errors.push('home missing leaderboard CTA')
-  if (route.startsWith('/sectors/') && !html.includes('Leaders coming soon')) {
-    errors.push('sector page missing empty state')
-  }
-  if (route === '/leaderboard' && !html.includes('Leaders coming soon')) {
-    errors.push('leaderboard missing empty state')
-  }
-  if (route === '/sectors' && !html.includes('energy-utilities')) errors.push('sectors index missing slug')
+  if (route === '/' && !html.includes('Ranked by you')) errors.push('home missing headline')
+  if (route === '/browse' && !html.includes('Family offices')) errors.push('browse missing groups')
+  if (route === '/leaderboard' && !html.includes('Example')) errors.push('leaderboard missing example label')
+  if (route.startsWith('/leaders/') && !html.includes('Example profile')) errors.push('profile missing example label')
+  if (route === '/partners' && !html.includes('Rank is never for sale')) errors.push('partners missing rank line')
 
   if (errors.length) throw new Error(`${route}: ${errors.join('; ')}`)
   return { title, description }
@@ -71,6 +69,9 @@ function assertDistClean(distDir) {
     }
     if (file.endsWith('.html') && /[\u2014\u2013]/.test(text)) {
       throw new Error(`${path.relative(distDir, file)} contains a dash in UI copy`)
+    }
+    if (file.endsWith('.js') && /from\(["']leaders["']\)|leaders_public/.test(text)) {
+      throw new Error(`${path.relative(distDir, file)} reads the leaders table`)
     }
   }
 }

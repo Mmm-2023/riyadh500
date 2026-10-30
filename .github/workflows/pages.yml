@@ -37,13 +37,16 @@ jobs:
           test -f dist/404.html
           test -f dist/CNAME
           grep -qx 'riyadh500.com' dist/CNAME
-          test -f dist/sectors/index.html
+          test -f dist/browse/index.html
           test -f dist/leaderboard/index.html
-          test -f dist/sectors/energy-utilities/index.html
-          test -f dist/sectors/public-sector-vision-2030/index.html
+          test -f dist/nominate/index.html
+          test -f dist/insights/index.html
+          test -f dist/partners/index.html
+          test -f dist/leaders/example-leader-a/index.html
           test -f dist/robots.txt
-          grep -q 'Leaders coming soon' dist/leaderboard/index.html
-          grep -q 'Leaders coming soon' dist/sectors/energy-utilities/index.html
+          grep -q 'Ranked by you' dist/index.html
+          grep -q 'Example profile' dist/leaders/example-leader-a/index.html
+          grep -q 'Rank is never for sale' dist/partners/index.html
           grep -Eq '(src|href)="/assets/' dist/index.html
           if grep -q '/riyadh500/' dist/index.html; then
             echo 'project subpath leaked into Pages index'

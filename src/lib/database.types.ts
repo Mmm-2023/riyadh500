@@ -119,6 +119,77 @@ export type Database = {
           },
         ]
       }
+      user_votes: {
+        Row: {
+          id: string
+          user_id: string
+          leader_slug: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          leader_slug: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          leader_slug?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      nominations: {
+        Row: {
+          id: string
+          user_id: string
+          nominee_name: string
+          role: string
+          organisation: string
+          group_name: string
+          sector_slug: string
+          source_url: string | null
+          why: string
+          contact_email: string
+          status: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          nominee_name: string
+          role: string
+          organisation: string
+          group_name: string
+          sector_slug: string
+          source_url?: string | null
+          why: string
+          contact_email: string
+          status?: string
+          created_at?: string
+        }
+        Update: {
+          nominee_name?: string
+        }
+        Relationships: []
+      }
+      subscribers: {
+        Row: {
+          id: string
+          email: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          email: string
+          created_at?: string
+        }
+        Update: {
+          email?: string
+        }
+        Relationships: []
+      }
       claim_requests: {
         Row: {
           id: string
