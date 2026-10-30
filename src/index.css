@@ -88,6 +88,17 @@
     white-space: nowrap;
   }
 
+  .field {
+    width: 100%;
+    min-height: 52px;
+    border: 1.5px solid #0a0a0a;
+    padding: 0 14px;
+    font-size: 16px;
+    background: #fff;
+    color: #0a0a0a;
+    border-radius: 0;
+  }
+
   .vote-pill {
     display: inline-flex;
     align-items: center;

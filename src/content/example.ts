@@ -177,3 +177,19 @@ export const EXAMPLE_NOTE = 'Example data. No real profiles are public.'
 export const PARTNER_LINE = 'Presented by [Example Partner]'
 
 export const RANK_LINE = 'Rank is never for sale.'
+
+export const SECTOR_BLURBS: Record<string, string> = {
+  'energy-utilities': 'Oil, gas, power and water.',
+  'banking-financial-services': 'Banks, insurers, asset managers and fintech.',
+  'real-estate-construction': 'Developers, builders and property platforms.',
+  'healthcare-life-sciences': 'Providers, pharma, devices and biotech.',
+  'technology-digital': 'Software, telecom, data and AI.',
+  'retail-consumer': 'Retail, food, brands and e-commerce.',
+  'industrial-manufacturing': 'Heavy industry, chemicals, mining and production.',
+  'transport-logistics': 'Aviation, rail, shipping and supply chain.',
+  'tourism-hospitality': 'Hotels, travel, events and leisure.',
+  'media-entertainment': 'Media, sport, gaming and culture.',
+  'professional-services': 'Consulting, law, audit and advisory.',
+  'education-research': 'Universities, schools and research.',
+  'public-sector-vision-2030': 'Public programmes and giga-projects.',
+}

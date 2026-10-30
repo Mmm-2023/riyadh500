@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react'
 import type { Session } from '@supabase/supabase-js'
+import { leaderBySlug } from '../content/example'
 import { supabase } from '../lib/supabase'
 
 type SheetMode = 'closed' | 'providers' | 'code' | 'done'
@@ -79,7 +80,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         return error.message
       }
       setVoted((current) => new Set(current).add(slug))
-      setSnackbar('Vote counted.')
+      setSnackbar(`Voted for ${leaderBySlug(slug)?.name ?? 'this profile'}`)
       return null
     },
     [],
