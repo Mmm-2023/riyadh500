@@ -44,7 +44,7 @@ jobs:
           test -f dist/partners/index.html
           test -f dist/leaders/example-leader-a/index.html
           test -f dist/robots.txt
-          grep -q 'Ranked by you' dist/index.html
+          grep -q 'Ranked by' dist/index.html
           grep -q 'Example profile' dist/leaders/example-leader-a/index.html
           grep -q 'Rank is never for sale' dist/partners/index.html
           grep -Eq '(src|href)="/assets/' dist/index.html

@@ -1,18 +1,33 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Schibsted Grotesk", sans-serif;
-  --font-serif: "Instrument Serif", serif;
+  --font-sans: "Schibsted Grotesk", system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
 
-  --color-ink: #111111;
+  --color-ink: #0a0a0a;
   --color-paper: #ffffff;
-  --color-mist: #f3f3f1;
-  --color-line: #e3e3df;
-  --color-muted: #3d3d3d;
+  --color-mist: #f4f4f4;
+  --color-line: #0a0a0a;
+  --color-muted: #4d4d4d;
   --color-green: #006c35;
-  --color-green-deep: #004d26;
-  --color-green-soft: #e7f3ec;
-  --color-green-bright: #7dde9a;
+  --color-green-deep: #004f27;
+  --color-green-soft: #e6f4ec;
+  --color-green-bright: #4cb07b;
+
+  --color-n-100: #f4f4f4;
+  --color-n-200: #e6e6e6;
+  --color-n-300: #cfcfcf;
+  --color-n-500: #6b6b6b;
+  --color-n-600: #4d4d4d;
+  --color-n-700: #2b2b2b;
+  --color-g-50: #f3faf6;
+  --color-g-100: #e6f4ec;
+  --color-g-200: #c5e8d5;
+  --color-g-300: #8ed0ad;
+  --color-g-400: #4cb07b;
+  --color-g-500: #1e8f52;
+  --color-g-600: #006c35;
+  --color-g-700: #004f27;
 }
 
 @layer base {
@@ -25,12 +40,17 @@
     outline-offset: 3px;
   }
 
+  .grid > * {
+    min-width: 0;
+  }
+
   body {
     margin: 0;
     min-height: 100dvh;
     font-family: var(--font-sans);
     font-size: 16px;
-    line-height: 1.5;
+    line-height: 24px;
+    font-variant-numeric: lining-nums;
     color: var(--color-ink);
     background: var(--color-paper);
     -webkit-font-smoothing: antialiased;
@@ -39,6 +59,45 @@
   ::selection {
     background: var(--color-green-soft);
     color: var(--color-ink);
+  }
+}
+
+@layer components {
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 22px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    white-space: nowrap;
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1.5px solid #0a0a0a;
+    font-size: 15px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .vote-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 16px;
+    white-space: nowrap;
   }
 }
 

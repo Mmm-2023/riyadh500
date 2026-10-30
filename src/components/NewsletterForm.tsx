@@ -5,9 +5,11 @@ import { insertMinimal } from '../lib/writes'
 export function NewsletterForm({
   id = 'newsletter-email',
   tone = 'green',
+  bare = false,
 }: {
   id?: string
   tone?: 'green' | 'paper'
+  bare?: boolean
 }) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'done' | 'error'>('idle')
@@ -42,16 +44,19 @@ export function NewsletterForm({
           value={email}
           onChange={(event) => setEmail(event.target.value)}
           placeholder="name@company.com"
-          className={`min-h-11 flex-1 px-3 text-base text-ink ${tone === 'green' ? 'border border-paper/40 bg-paper' : 'border border-ink bg-paper'}`}
+          className={
+            bare
+              ? 'min-h-[52px] flex-1 border-[1.5px] border-white bg-transparent px-3.5 text-[16px] text-white placeholder:text-white/70'
+              : `min-h-11 flex-1 px-3 text-base text-ink ${tone === 'green' ? 'border border-white/40 bg-white' : 'border border-ink bg-white'}`
+          }
         />
-        <button
-          type="submit"
-          className={`min-h-11 px-5 font-semibold ${tone === 'green' ? 'bg-ink text-paper' : 'bg-green text-paper'}`}
-        >
+        <button type="submit" className={`btn-pill w-full sm:w-auto ${bare || tone === 'green' ? 'bg-white text-ink' : 'bg-g-600 text-white'}`}>
           Subscribe
         </button>
       </div>
-      <p className={`text-[15px] ${tone === 'green' ? 'text-paper/85' : 'text-muted'}`}>{PARTNER_LINE}</p>
+      <p className={`text-[15px] leading-[22px] ${bare || tone === 'green' ? 'text-white/85' : 'text-muted'}`}>
+        {bare ? 'Presented by [Example Partner]. Unsubscribe any time.' : PARTNER_LINE}
+      </p>
       {status !== 'idle' ? (
         <p className="text-[15px]" role="status">
           {message}
